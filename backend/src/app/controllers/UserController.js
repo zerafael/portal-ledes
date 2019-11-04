@@ -12,14 +12,6 @@ class UserController {
       return response.status(401).json('E-mail do usuário já existe');
     }
 
-    const userLogged = await User.findByPk(request.userId);
-
-    if (!userLogged.admin) {
-      return response
-        .status(401)
-        .json('Somente administradores podem criar usuários');
-    }
-
     const { id, name, admin } = await User.create(request.body);
 
     return response.json({ id, name, email, admin });
