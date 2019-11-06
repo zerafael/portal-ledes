@@ -6,6 +6,7 @@ class ImageNews extends Model {
       {},
       {
         sequelize: connection,
+        tableName: 'imagesNews',
       }
     );
 

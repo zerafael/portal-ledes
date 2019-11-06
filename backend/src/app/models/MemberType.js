@@ -8,6 +8,7 @@ class MemberType extends Model {
       },
       {
         sequelize: connection,
+        tableName: 'membersType',
       }
     );
 

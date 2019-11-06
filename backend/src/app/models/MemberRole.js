@@ -6,6 +6,7 @@ class MemberRole extends Model {
       {},
       {
         sequelize: connection,
+        tableName: 'membersRoles',
       }
     );
 
