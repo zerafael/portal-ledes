@@ -12,6 +12,8 @@ import MemberRole from '../app/models/MemberRole';
 import Project from '../app/models/Project';
 import Team from '../app/models/Team';
 import History from '../app/models/History';
+import AboutUs from '../app/models/AboutUs';
+import Contact from '../app/models/Contact';
 
 import databaseConfig from '../config/database';
 
@@ -28,6 +30,8 @@ const models = [
   Project,
   Team,
   History,
+  AboutUs,
+  Contact,
 ];
 
 class Database {
