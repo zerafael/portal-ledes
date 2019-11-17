@@ -1,18 +1,24 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
 import DefaultLayout from '../pages/_layout/default';
+import AuthLayout from '../pages/_layout/auth';
 
 function RouteWrapper({ component: Component, isPrivate, ...rest }) {
-  const signed = false;
+  const signed = useSelector(state => state.auth.signed);
+  const { path } = rest;
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
   }
 
-  // TODO: Verificar se é a página de login
-  const Layout = DefaultLayout;
+  if (signed && path === '/admin') {
+    return <Redirect to="/" />;
+  }
+
+  const Layout = path === '/admin' ? AuthLayout : DefaultLayout;
 
   return (
     <Route

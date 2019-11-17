@@ -3,6 +3,7 @@ import { Switch } from 'react-router-dom';
 import Route from './Route';
 
 import Home from '../pages/Home';
+import Login from '../pages/Login';
 import Projects from '../pages/Projects';
 import Members from '../pages/Members';
 import News from '../pages/News';
@@ -13,6 +14,7 @@ function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={Home} />
+      <Route path="/admin" exact isPrivate={false} component={Login} />
       <Route path="/projetos" exact component={Projects} />
       <Route path="/membros" exact component={Members} />
       <Route path="/sobrenos" exact component={AboutUs} />
