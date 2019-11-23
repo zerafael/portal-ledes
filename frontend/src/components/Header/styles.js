@@ -27,6 +27,32 @@ export const Content = styled.div`
       position: absolute;
       left: 25%;
     }
+
+    div {
+      position: absolute;
+      right: 0%;
+      top: 0%;
+      margin: 25px 25px 0 0;
+
+      a {
+        padding: 5px 10px;
+        border: 1px solid #000;
+        border-radius: 4px;
+        text-decoration: none;
+
+        &:visited {
+          color: #000;
+        }
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.1);
+        }
+
+        &:active {
+          color: rgba(100, 100, 100, 0.5);
+        }
+      }
+    }
   }
 
   nav {

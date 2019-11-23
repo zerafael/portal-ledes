@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import api from '../../services/api';
 
-import { Container, Content } from './styles';
+import { Container, Content, ContentEdit } from './styles';
 
 function Contact() {
+  const signed = useSelector(state => state.auth.signed);
+  const profile = useSelector(state => state.user.profile);
+
   const [editing, setEditing] = useState(false);
   const [content, setContent] = useState('');
 
@@ -14,7 +18,7 @@ function Contact() {
     async function loadContent() {
       const response = await api.get('contact');
 
-      setContent(response.data);
+      setContent(response.data[0].content);
     }
 
     loadContent();
@@ -25,9 +29,9 @@ function Contact() {
   }
 
   async function handleSave() {
-    const response = await api.post('contact');
-
-    console.log(response.data);
+    await api.post('contact', {
+      content,
+    });
 
     setEditing(false);
   }
@@ -35,8 +39,6 @@ function Contact() {
   function handleCancel() {
     setEditing(false);
   }
-
-  // TODO: Colocar botão de cancelar
 
   return (
     <Container>
@@ -61,12 +63,16 @@ function Contact() {
           </div>
         </>
       ) : (
-        <>
-          <button className="edit" type="button" onClick={handleEdit}>
-            Editar
-          </button>
-          <p>{content}</p>
-        </>
+        <ContentEdit>
+          {signed && profile.admin === true ? (
+            <div>
+              <button className="edit" type="button" onClick={handleEdit}>
+                Editar
+              </button>
+            </div>
+          ) : null}
+          <div dangerouslySetInnerHTML={{ __html: content }} />
+        </ContentEdit>
       )}
     </Container>
   );

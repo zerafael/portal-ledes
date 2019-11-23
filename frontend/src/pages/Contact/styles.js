@@ -15,6 +15,7 @@ export const Container = styled.div`
   .edit {
     float: right;
     margin-bottom: 20px;
+    padding: 5px 10px;
   }
 
   .buttons {
@@ -23,13 +24,13 @@ export const Container = styled.div`
     margin-top: 10px;
 
     button {
-      border: 0;
-      color: #fff;
       transition: background 0.2s;
     }
 
     .save {
+      border: 0;
       background: #3b9eff;
+      color: #fff;
       margin-left: 10px;
 
       &:hover {
@@ -38,10 +39,13 @@ export const Container = styled.div`
     }
 
     .cancel {
-      background: #f64c75;
+      border: 1px solid #f64c75;
+      color: #f64c75;
+      background: #fff;
 
       &:hover {
-        background: ${darken(0.05, '#f64c75')};
+        border-color: ${darken(0.15, '#f64c75')};
+        color: ${darken(0.15, '#f64c75')};
       }
     }
   }
@@ -51,4 +55,9 @@ export const Content = styled.div`
   div {
     height: 500px;
   }
+`;
+
+export const ContentEdit = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
