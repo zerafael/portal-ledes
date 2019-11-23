@@ -12,8 +12,6 @@ import Role from '../models/Role';
 class MemberProjectController {
   async index(request, response) {
     function joinObjects(element) {
-      const role = element.MemberRole.Role;
-
       element.MemberRole.Member.setDataValue('Role', {
         name: element.MemberRole.Role.name,
       });

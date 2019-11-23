@@ -18,9 +18,10 @@ class ContactController {
 
     const contactOld = await Contact.findAll();
 
-    const contact = (await contactOld)
-      ? contactOld.update(request.body)
-      : Contact.create(request.body);
+    const contact =
+      contactOld.length !== 0
+        ? await contactOld[0].update(request.body)
+        : await Contact.create(request.body);
 
     return response.json(contact);
   }

@@ -2,7 +2,9 @@ import Project from '../models/Project';
 
 class ProjectController {
   async index(request, response) {
-    const projects = await Project.findAll();
+    const projects = await Project.findAll({
+      attributes: ['id', 'name', 'description', 'date_start', 'date_end'],
+    });
 
     return response.json(projects);
   }
@@ -10,9 +12,15 @@ class ProjectController {
   async store(request, response) {
     // TODO: Fazer validaçao dos dados
     // TODO: Veificação das datas, verificar se a data de inicio já passou e se a data de fim é depois que a data de inicio
-    const project = await Project.create(request.body);
+    const {
+      id,
+      name,
+      description,
+      date_start,
+      date_end,
+    } = await Project.create(request.body);
 
-    return response.json(project);
+    return response.json({ id, name, description, date_start, date_end });
   }
 
   async update(request, response) {
@@ -25,9 +33,11 @@ class ProjectController {
       return response.status(400).json({ error: 'Projeto não existe' });
     }
 
-    await project.update(request.body);
+    const { name, description, date_start, date_end } = await project.update(
+      request.body
+    );
 
-    return response.json(project);
+    return response.json({ name, description, date_start, date_end });
   }
 
   async delete(request, response) {

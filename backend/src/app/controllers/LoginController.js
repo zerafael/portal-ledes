@@ -17,13 +17,14 @@ class LoginController {
       return response.status(401).json({ error: 'Senha invalida' });
     }
 
-    const { id, name } = user;
+    const { id, name, admin } = user;
 
     return response.json({
       user: {
         id,
         name,
         email,
+        admin,
       },
       token: jwt.sign({ id }, authConfig.secret),
     });

@@ -2,7 +2,10 @@ import Role from '../models/Role';
 
 class RoleController {
   async index(request, response) {
-    const roles = await Role.findAll({ order: [['name', 'ASC']] });
+    const roles = await Role.findAll({
+      order: [['name', 'ASC']],
+      attributes: ['id', 'name'],
+    });
 
     return response.json(roles);
   }
