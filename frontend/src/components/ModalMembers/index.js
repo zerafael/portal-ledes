@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import api from '../../services/api';
 
@@ -8,33 +8,49 @@ function ModalMembers({ show, oldMembers, showModal, setProjectMembers }) {
   const [members, setMembers] = useState([]);
   const [changedMembers, setChangeMembers] = useState(new Map());
 
+  // Gambiarra para forçar a renderização do component
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
+
+  function mapMembers(m) {
+    const membersMapped = new Map();
+
+    m.forEach(member => {
+      membersMapped.set(member.id, { name: member.name, checked: false });
+    });
+
+    return membersMapped;
+  }
+
   useEffect(() => {
     async function loadMembers() {
       const response = await api.get('members');
 
       setMembers(response.data);
-      // setChangeMembers(
-      //   oldMembers.map(member => changedMembers.set(member.id, true))
-      // );
+
+      setChangeMembers(mapMembers(response.data));
     }
 
     loadMembers();
   }, []);
 
   function handleChangeCheckbox(e) {
-    const item = e.target.name;
+    const key = Number(e.target.name);
     const isChecked = e.target.checked;
-    setChangeMembers(changedMembers.set(item, isChecked));
+
+    const element = changedMembers.get(key);
+    element.checked = isChecked;
+
+    setChangeMembers(changedMembers.set(key, element));
+    forceUpdate();
   }
 
   function handleAddButton() {
     const checkedMembers = [];
 
     changedMembers.forEach((value, key) => {
-      if (value === true) {
-        checkedMembers.push(
-          members.find(member => member.id.toString() === key)
-        );
+      if (value.checked === true) {
+        checkedMembers.push(members.find(member => member.id === key));
       }
     });
 
@@ -53,14 +69,15 @@ function ModalMembers({ show, oldMembers, showModal, setProjectMembers }) {
 
             <Wrapper>
               <List>
-                {members.map(member => (
-                  <label htmlFor={member.id}>
+                {Array.from(changedMembers.entries()).map(member => (
+                  <label htmlFor={member[0]} key={member[0]}>
                     <input
-                      name={member.id}
+                      name={member[0]}
                       type="checkbox"
                       onChange={handleChangeCheckbox}
+                      checked={member[1].checked}
                     />
-                    {member.name}
+                    {member[1].name}
                     <span />
                   </label>
                 ))}

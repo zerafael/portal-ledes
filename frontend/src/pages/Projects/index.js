@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { MdAddCircleOutline } from 'react-icons/md';
 
 import ProjectBox from '../../components/ProjectBox';
 
+import api from '../../services/api';
 import history from '../../services/history';
 
 import { Container } from './styles';
 
-const projects = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 function Projects() {
+  const [projects, setProjects] = useState([]);
+
   const signed = useSelector(state => state.auth.signed);
   const admin = useSelector(state => state.auth.admin);
+
+  useEffect(() => {
+    async function loadProjects() {
+      const response = await api.get('projects');
+
+      setProjects(response.data);
+    }
+
+    loadProjects();
+  }, []);
 
   return (
     <Container>
@@ -24,7 +35,7 @@ function Projects() {
         />
       ) : null}
       {projects.map(project => (
-        <ProjectBox project={project} name={project} />
+        <ProjectBox /*image={project.image} */ name={project.name} />
       ))}
     </Container>
   );
