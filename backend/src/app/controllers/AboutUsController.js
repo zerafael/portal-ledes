@@ -18,9 +18,10 @@ class AboutUsController {
 
     const aboutUsOld = await AboutUs.findAll();
 
-    const aboutUs = (await aboutUsOld)
-      ? aboutUsOld.update(request.body)
-      : AboutUs.create(request.body);
+    const aboutUs =
+      aboutUsOld.length !== 0
+        ? await aboutUsOld[0].update(request.body)
+        : await AboutUs.create(request.body);
 
     return response.json(aboutUs);
   }

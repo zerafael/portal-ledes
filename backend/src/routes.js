@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import multer from 'multer';
+import multerConfig from './config/multer';
 
 import LoginController from './app/controllers/LoginController';
 import UserController from './app/controllers/UserController';
@@ -10,11 +12,13 @@ import MemberProjectController from './app/controllers/MemberProjectController';
 import MemberTypeController from './app/controllers/MemberTypeController';
 import AboutUsController from './app/controllers/AboutUsController';
 import ContactController from './app/controllers/ContactController';
+import FileController from './app/controllers/FileController';
 
 import authMiddleware from './app/middlewares/auth';
 import adminMiddleware from './app/middlewares/admin';
 
 const routes = new Router();
+const upload = multer(multerConfig);
 
 // Login
 routes.post('/login', LoginController.store);
@@ -34,6 +38,9 @@ routes.get('/aboutus', AboutUsController.index);
 // Get contact information
 routes.get('/contact', ContactController.index);
 
+// List news
+routes.get('/news', NewsController.index);
+
 routes.use(authMiddleware);
 
 // Create user
@@ -43,8 +50,6 @@ routes.put('/users', UserController.update);
 
 // Create news
 routes.post('/news', NewsController.store);
-// List news
-routes.get('/news', NewsController.index);
 
 // Create project
 routes.post('/projects', adminMiddleware, ProjectController.store);
@@ -79,5 +84,8 @@ routes.post('/aboutus', AboutUsController.store);
 
 // Create/Update contact information
 routes.post('/contact', ContactController.store);
+
+// Upload file
+routes.post('/files', upload.single('file'), FileController.store);
 
 export default routes;

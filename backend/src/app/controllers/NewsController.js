@@ -1,8 +1,16 @@
 import News from '../models/News';
+import User from '../models/User';
 
 class NewsController {
   async index(request, response) {
-    const news = await News.findAll({ order: [['date', 'DESC']] });
+    const news = await News.findAll({
+      order: [['date', 'DESC']],
+      include: [
+        {
+          model: User,
+        },
+      ],
+    });
 
     return response.json(news);
   }
