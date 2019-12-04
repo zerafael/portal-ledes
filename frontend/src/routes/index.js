@@ -4,6 +4,7 @@ import Route from './Route';
 
 import Home from '../pages/Home';
 import Login from '../pages/Login';
+import NewsEdit from '../pages/NewsEdit';
 import Projects from '../pages/Projects';
 import ProjectEdit from '../pages/ProjectEdit';
 import Members from '../pages/Members';
@@ -18,6 +19,10 @@ function Routes() {
       <Route path="/" exact component={Home} />
       <Route path="/admin" exact component={Login} />
 
+      {/* <Route path="/noticias" exact component={News} /> */}
+      <Route path="/noticias/:id" exact component={News} />
+      <Route path="/noticia/nova" exact component={NewsEdit} />
+
       <Route path="/projetos" exact component={Projects} />
       <Route path="/projeto/novo" exact component={ProjectEdit} />
 
@@ -26,7 +31,6 @@ function Routes() {
 
       <Route path="/sobrenos" exact component={AboutUs} />
       <Route path="/contato" exact component={Contact} />
-      <Route path="/news" exact component={News} />
     </Switch>
   );
 }

@@ -24,8 +24,10 @@ export const Content = styled.div`
     }
 
     h1 {
+      width: 600px;
+      text-align: center;
       position: absolute;
-      left: 25%;
+      left: 30%;
     }
 
     div {
